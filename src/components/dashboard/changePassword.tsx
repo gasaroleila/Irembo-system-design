@@ -6,7 +6,7 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { PasswordChangeProps } from "../../types/types";
 import { Toast } from "./toasts/Toast";
 import Button from "./authentication/button";
-import { UserService } from "../../pages/api/services/UserService";
+import { UserService } from "../../pages/Api/services/UserService";
 import { UserContext } from "./authentication/ContextProvider";
 
 

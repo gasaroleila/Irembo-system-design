@@ -8,6 +8,7 @@ import { Routes } from 'react-router-dom';
 import Login from './pages/login';
 import Register from './pages/register';
 import ResetPassword from './pages/resetPassword';
+import Dashboard from './pages/dashboard';
 
 
 function App() {
@@ -15,7 +16,9 @@ function App() {
     <Routes>
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
-      <Route path="/resetPassword" element={<ResetPassword/>}/>
+      <Route path="/resetPassword" element={<ResetPassword />} />
+      <Route path="/" element={<Dashboard/>}/>
+      
     </Routes>
   ) 
 }
