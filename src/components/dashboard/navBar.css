@@ -1,0 +1,13 @@
+.dashboard-navbar {
+    background: #F9F9F9;
+    height: 51px;
+    padding: 0px 0px 0 2px;
+  }
+
+.nav-search-section input {
+    outline: none;
+}
+.nav-account-section svg {
+    background: #F9F9FB;
+    border-radius: 50%;
+}
