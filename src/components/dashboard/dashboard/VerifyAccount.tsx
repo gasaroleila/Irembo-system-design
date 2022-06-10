@@ -1,21 +1,19 @@
-import Button from "./button";
 
 import { useForm, SubmitHandler } from "react-hook-form";
-import { UserAuth } from "../../../types/types";
+import { OtherUserInfo, UserAuth } from "../../../types/types";
 import { Toast } from "../toasts/Toast";
 import { UserService } from "../../../pages/Api/services/UserService";
 import { useState, useContext } from "react";
-import { UserContext } from "./ContextProvider";
 import { Lock, Mail } from "react-feather";
 import { Link, useNavigate, Navigate } from "react-router-dom";
+import Button from "../authentication/button";
 
-export function UserLogin(): JSX.Element {
-  const { authError }: any = useContext(UserContext);
+export default function VerifyAccount(): JSX.Element {
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<UserAuth>();
+  } = useForm<OtherUserInfo>();
   const [{ status, message }, handleToast] = useState({
     status: "",
     message: "",
@@ -24,11 +22,11 @@ export function UserLogin(): JSX.Element {
 
   const navigate = useNavigate();
 
-  const login: SubmitHandler<UserAuth> = async (data) => {
+  const login: SubmitHandler<OtherUserInfo> = async (data) => {
     handleLoading(true);
     const userService = new UserService();
     try {
-      const response = await userService.login(data);
+      const response = await userService.addOtherInfo(data, "");
       if (response.success === false) {
         handleToast({ status: "error", message: response.message });
       } else {
@@ -49,70 +47,53 @@ export function UserLogin(): JSX.Element {
     }
   };
   return (
-    <div className="my-10 w-full text-sm">
+    <div className="my-10 w-1/5 mx-auto text-sm">
       
       {/* toast */}
       {status === "error" && <Toast status={status} message={message} />}
-      {/* toast ends here */}
-      {/* toast for authentication error */}
-
-      {/* {authError !== '' &&
-        <Toast
-          status= 'error'
-          message={authError}
-        />
-      }
-       */}
       <form onSubmit={handleSubmit(login)}>
         <div className="form-group mt-7 w-full">
           <label htmlFor="email" className="mb-2 text-sm capitalize block">
-            email address
+            NID/Passport Number
           </label>
          <div className="bg-gray-50  ring-1 ring-gray-200 outline-none w-full px-3 py-2 flex gap-2 items-center rounded">
-           <Mail className="text-gray-500" strokeWidth={0.5}/>
+           {/* <Card className="text-gray-500" strokeWidth={0.5}/> */}
          <input
-            type="text"
-            id="email"
+            type="number"
+            id="ID"
             placeholder=""
             className="w-full bg-transparent   focus:outline-none"
-            {...register("email", {
-              required: "Please enter a valid email",
-              pattern: /\S+@\S+\.\S+/,
+            {...register("ID", {
+              required: "Please enter a valid ID or passport number",
             })}
           />
            </div>
 
           <span className="text-red-600 text-xs block mt-2">
-            {errors.email && errors.email.message}
+            {errors.ID && errors.ID.message}
           </span>
         </div>
         <div className="form-group mt-7 w-full">
           <label htmlFor="password" className="mb-2 text-sm capitalize block">
-            password
+            Official Document
           </label>
           <div className="bg-gray-50  ring-1 ring-gray-200 outline-none w-full py-2 px-3 flex gap-2 items-center rounded">
         
-        <Lock className="text-gray-500" strokeWidth={0.5}/>
           <input
-            type="password"
-            id="password"
+            type="file"
+            id="document"
             className="w-full bg-transparent   focus:outline-none"
-            {...register("password", {
+            {...register("document", {
               required: "Please enter password",
             })}
           />
             </div>
           <span className="text-red-600 block text-xs mt-2">
-            {errors.password && errors.password.message}
+            {errors.document && errors.document.message}
           </span>
         </div>
-        <Link to="/resetpassword">
-          <a className="text-gray-500 hover:underline float-right my-5 text-sm">
-            Forgot password?
-          </a>
-        </Link>
 
-        <Button title="Sign in" loading={loading} loadingTitle="Signing ..." />
+        <Button title="Submit" loading={loading} loadingTitle="Submitting..." />
       </form>
     </div>
   );

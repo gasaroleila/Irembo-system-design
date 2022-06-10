@@ -10,15 +10,15 @@ export default function NavBar(): JSX.Element {
   const handleLogOut = () => {
     localStorage.removeItem("tuura_auth_token");
     localStorage.removeItem("currentUser");
-    navigate("/auth");
+    navigate("/login");
   };
 
   const handleShowNotifications = () => {
    
   };
   return (
-    <div className="dashboard-navbar flex justify-between w-full h-1/6 sticky top-0 z-40">
-      <div className="drop-shadow-sm bg-white flex w-full">
+    <div className="dashboard-navbar flex justify-items-end w-full h-1/6 sticky top-0 z-40">
+      <div className="drop-shadow-sm bg-white flex w-full justify-end">
         <div className="nav-middle-section  mr-6 flex-none flex justify-end items-center">
           <svg
             onClick={() => handleShowNotifications()}
@@ -45,17 +45,17 @@ export default function NavBar(): JSX.Element {
 
           
         </div>
-        <div className="nav-account-section flex justify-center items-center">
+        <div className="nav-account-section flex justify-center items-center mr-16">
           <img
             className="inline-block h-12 w-12 rounded-full ring-2 ring-white"
-            src={""}
+            src="/images/bruno-rodrigues-279xIHymPYY-unsplash.jpg"
             alt="current user"
           />
           <div className="current-user-info px-3 mr-8">
             <p className="font-bold mb-0 text-small">
               {"Gasaro" + " " + "Leila"}
             </p>
-            <span className="mt-0 text-small font-medium">
+            <span className="mt-0 text-[13px] font-medium">
               {"leila@gmail.com"}
             </span>
           </div>

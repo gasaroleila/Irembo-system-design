@@ -5,13 +5,20 @@ export interface UserAuth {
 }
 
 export interface UserRegisterData {
-  fname: string,
-  lname: string,
+  names: string,
+  email: string,
   gender: Gender,
   age: number,
   dob: string,
   maritialStatus: MaritialStatus,
-  nationality: string
+  nationality: string,
+  profile: any,
+  password:string
+}
+
+export interface OtherUserInfo {
+  ID: number,
+  document: any
 }
 
 export interface userForgotPassword {
