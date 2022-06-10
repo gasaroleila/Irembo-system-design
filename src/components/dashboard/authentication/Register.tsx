@@ -198,6 +198,26 @@ export function UserRegister(): JSX.Element {
             <span className="text-red-600 text-xs block mt-2 w-48">
               {errors.nationality?.message}
             </span>
+        </div>
+        
+        <div className="form-group mt-7 w-full">
+          <label htmlFor="password" className="mb-2 text-sm capitalize block">
+            Profile Photo
+          </label>
+          <div className="bg-gray-50  ring-1 ring-gray-200 outline-none w-full py-2 px-3 flex gap-2 items-center rounded">
+        
+          <input
+            type="file"
+            id="profile"
+            className="w-full bg-transparent   focus:outline-none"
+            {...register("profile", {
+              required: "Please enter your Lastname",
+            })}
+          />
+            </div>
+          <span className="text-red-600 block text-xs mt-2">
+            {errors.profile && errors.profile.message}
+          </span>
               </div>
 
         <Button title="Sign in" loading={loading} loadingTitle="Signing ..."/>

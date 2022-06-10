@@ -11,7 +11,13 @@ export interface UserRegisterData {
   age: number,
   dob: string,
   maritialStatus: MaritialStatus,
-  nationality: string
+  nationality: string,
+  profile: any
+}
+
+export interface OtherUserInfo {
+  ID: number,
+  document: any
 }
 
 export interface userForgotPassword {

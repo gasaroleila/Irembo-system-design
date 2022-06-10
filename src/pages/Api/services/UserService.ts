@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { checkLocalStorage } from '../../../util/checkLocalStorage';
-import { User, UserAuth, UserRegisterData } from '../../../types/types';
+import { OtherUserInfo, User, UserAuth, UserRegisterData } from '../../../types/types';
 export class UserService{
 
     private token:string =  checkLocalStorage('access_token')
@@ -114,6 +114,16 @@ export class UserService{
     }
 
     async updateProfile(body:User, id:String){
+        let response = await axios.put(`${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/users/${id}`,body,
+        {
+            headers:{
+                Authorization: `Bearer ${this.token}`
+            }
+        })
+        return response.data
+    }
+
+    async addOtherInfo(body:OtherUserInfo, id:String){
         let response = await axios.put(`${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/users/${id}`,body,
         {
             headers:{
