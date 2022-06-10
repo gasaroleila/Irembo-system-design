@@ -71,7 +71,7 @@ export function UserLogin(): JSX.Element {
          <div className="bg-gray-50  ring-1 ring-gray-200 outline-none w-full px-3 py-2 flex gap-2 items-center rounded">
            <Mail className="text-gray-500" strokeWidth={0.5}/>
          <input
-            type="email"
+            type="text"
             id="email"
             placeholder=""
             className="w-full bg-transparent   focus:outline-none"

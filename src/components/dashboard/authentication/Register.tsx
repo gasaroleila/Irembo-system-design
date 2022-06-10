@@ -55,47 +55,52 @@ export function UserRegister(): JSX.Element {
       {status === "error" && <Toast status={status} message={message} />}
       <form onSubmit={handleSubmit(login)} className="pb-[3em]">
         <div className="form-group mt-7 w-full">
-          <label htmlFor="email" className="mb-2 text-sm capitalize block">
-            Firstname
+          <label htmlFor="names" className="mb-2 text-sm capitalize block">
+            Names
           </label>
          <div className="bg-gray-50  ring-1 ring-gray-200 outline-none w-full px-3 py-2 flex gap-2 items-center rounded">
          <input
             type="text"
-            id="fname"
+            id="names"
             placeholder=""
             className="w-full bg-transparent  focus:outline-none"
-            {...register("fname", {
+            {...register("names", {
               required: "Please enter your Firstname",
+              minLength: 5
             })}
           />
            </div>
 
           <span className="text-red-600 text-xs block mt-2">
-            {errors.fname && errors.fname.message}
+            {errors.names && errors.names.message}
           </span>
         </div>
+
         <div className="form-group mt-7 w-full">
-          <label htmlFor="password" className="mb-2 text-sm capitalize block">
-            Lastname
+          <label htmlFor="email" className="mb-2 text-sm capitalize block">
+            Email
           </label>
-          <div className="bg-gray-50  ring-1 ring-gray-200 outline-none w-full py-2 px-3 flex gap-2 items-center rounded">
-        
-          <input
+         <div className="bg-gray-50  ring-1 ring-gray-200 outline-none w-full px-3 py-2 flex gap-2 items-center rounded">
+           <Mail className="text-gray-500" strokeWidth={0.5}/>
+         <input
             type="text"
-            id="lname"
+            id="email"
+            placeholder=""
             className="w-full bg-transparent   focus:outline-none"
-            {...register("lname", {
-              required: "Please enter your Lastname",
+            {...register("email", {
+              required: "Please enter a valid email",
+              pattern: /\S+@\S+\.\S+/,
             })}
           />
-            </div>
-          <span className="text-red-600 block text-xs mt-2">
-            {errors.lname && errors.lname.message}
+           </div>
+
+          <span className="text-red-600 text-xs block mt-2">
+            {errors.names && errors.names.message}
           </span>
-              </div>
-              
+        </div>
+        
               <div className="form-group mt-7 w-full">
-          <label htmlFor="password" className="mb-2 text-sm capitalize block">
+          <label htmlFor="gender" className="mb-2 text-sm capitalize block">
             Gender
           </label>
           {/* <div className="bg-gray-50  ring-1 ring-gray-200 outline-none w-full py-2 px-3 flex gap-2 items-center rounded"> */}
@@ -118,7 +123,7 @@ export function UserRegister(): JSX.Element {
               </div>
               
               <div className="form-group mt-7 w-full">
-          <label htmlFor="password" className="mb-2 text-sm capitalize block">
+          <label htmlFor="age" className="mb-2 text-sm capitalize block">
             Age
           </label>
           <div className="bg-gray-50  ring-1 ring-gray-200 outline-none w-full py-2 px-3 flex gap-2 items-center rounded">
@@ -138,7 +143,7 @@ export function UserRegister(): JSX.Element {
               </div>
 
               <div className="form-group mt-7 w-full">
-          <label htmlFor="password" className="mb-2 text-sm capitalize block">
+          <label htmlFor="dob" className="mb-2 text-sm capitalize block">
             Date Of Birth
           </label>
           <div className="bg-gray-50  ring-1 ring-gray-200 outline-none w-full py-2 px-3 flex gap-2 items-center rounded">
@@ -158,15 +163,15 @@ export function UserRegister(): JSX.Element {
               </div>
 
               <div className="form-group mt-7 w-full">
-          <label htmlFor="password" className="mb-2 text-sm capitalize block">
+          <label htmlFor="maritialStatus" className="mb-2 text-sm capitalize block">
             Maritial Status
           </label>
         
         <select
-              id="gender"
+              id="maritialStatus"
               className="rounded-sm bg-gray-50 text-gray-600 ring-1 ring-gray-200 outline-none w-full py-[0.75em] px-3"
-              {...register("gender", {
-                required: "Please select the organisation",
+              {...register("maritialStatus", {
+                required: "Please select a Maritial Status",
               })}
             >
                           <option  value={MaritialStatus.SINGLE}>{MaritialStatus.SINGLE}</option>
@@ -180,7 +185,7 @@ export function UserRegister(): JSX.Element {
               </div>
 
               <div className="form-group mt-7 w-full">
-          <label htmlFor="password" className="mb-2 text-sm capitalize block">
+          <label htmlFor="nationality" className="mb-2 text-sm capitalize block">
             Nationality
           </label>
         
@@ -201,7 +206,7 @@ export function UserRegister(): JSX.Element {
         </div>
         
         <div className="form-group mt-7 w-full">
-          <label htmlFor="password" className="mb-2 text-sm capitalize block">
+          <label htmlFor="profile" className="mb-2 text-sm capitalize block">
             Profile Photo
           </label>
           <div className="bg-gray-50  ring-1 ring-gray-200 outline-none w-full py-2 px-3 flex gap-2 items-center rounded">
@@ -218,9 +223,32 @@ export function UserRegister(): JSX.Element {
           <span className="text-red-600 block text-xs mt-2">
             {errors.profile && errors.profile.message}
           </span>
-              </div>
+        </div>
+        
+        <div className="form-group mt-7 w-full">
+          <label htmlFor="password" className="mb-2 text-sm capitalize block">
+            Password
+          </label>
+          <div className="bg-gray-50  ring-1 ring-gray-200 outline-none w-full py-2 px-3 flex gap-2 items-center rounded">
+        
+        <Lock className="text-gray-500" strokeWidth={0.5}/>
+          <input
+            type="password"
+            id="password"
+            className="w-full bg-transparent   focus:outline-none"
+            {...register("password", {
+              required: "Please enter password",
+              minLength: 8,
+              pattern: /^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{8,}$/ //min 8 letter password, with at least a symbol, upper and lower case letters and a number
+            })}
+          />
+            </div>
+          <span className="text-red-600 block text-xs mt-2">
+            {errors.password && errors.password.message}
+          </span>
+        </div>
 
-        <Button title="Sign in" loading={loading} loadingTitle="Signing ..."/>
+        <Button title="Sign Up" loading={loading} loadingTitle="Signing Up ..."/>
       </form>
     </div>
   );
