@@ -9,6 +9,7 @@ import Login from './pages/login';
 import Register from './pages/register';
 import ResetPassword from './pages/resetPassword';
 import Dashboard from './pages/dashboard';
+import VerifyEmail from './pages/verifyEmail';
 
 
 function App() {
@@ -17,6 +18,7 @@ function App() {
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
       <Route path="/resetPassword" element={<ResetPassword />} />
+      <Route path="/verifyEmail" element={<VerifyEmail/>} />
       <Route path="/" element={<Dashboard/>}/>
       
     </Routes>

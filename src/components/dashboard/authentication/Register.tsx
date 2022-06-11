@@ -25,7 +25,9 @@ export function UserRegister(): JSX.Element {
 
   const navigate = useNavigate();
 
-  const login: SubmitHandler<UserRegisterData> = async (data) => {
+  const registerForm: SubmitHandler<UserRegisterData> = async (data: any) => {
+    data.profilePicture = await data.profilePicture[0]
+   console.log("profile",data.profilePicture)
     handleLoading(true);
     const userService = new UserService();
     try {
@@ -38,22 +40,24 @@ export function UserRegister(): JSX.Element {
           "access_token",
           JSON.stringify(response.data.access_token)
         );
-        navigate("/");
+        navigate("/verifyEmail");
       }
       handleLoading(false);
       setTimeout(() => {
         handleToast({ status: "", message: "" });
       }, 3000);
-    } catch (error) {
+    } catch (error:any) {
       handleLoading(false);
-      console.log("Error occured: ", error);
+      console.log("Error occured: ", error.response.data.message);
+      handleToast({ status: "error", message: "An Error Occured, Try again!"});
+
     }
   };
   return (
     <div className="my-10 w-full text-sm">
       {/* toast */}
       {status === "error" && <Toast status={status} message={message} />}
-      <form onSubmit={handleSubmit(login)} className="pb-[3em]">
+      <form onSubmit={handleSubmit(registerForm)} className="pb-[3em]">
         <div className="form-group mt-7 w-full">
           <label htmlFor="names" className="mb-2 text-sm capitalize block">
             Names
@@ -65,7 +69,7 @@ export function UserRegister(): JSX.Element {
             placeholder=""
             className="w-full bg-transparent  focus:outline-none"
             {...register("names", {
-              required: "Please enter your Firstname",
+              required: "Please enter your Names",
               minLength: 5
             })}
           />
@@ -95,7 +99,7 @@ export function UserRegister(): JSX.Element {
            </div>
 
           <span className="text-red-600 text-xs block mt-2">
-            {errors.names && errors.names.message}
+            {errors.email && errors.email.message}
           </span>
         </div>
         
@@ -109,10 +113,10 @@ export function UserRegister(): JSX.Element {
               id="gender"
               className="rounded bg-gray-50 text-gray-600 ring-1 ring-gray-200 outline-none w-full py-[0.75em] px-3"
               {...register("gender", {
-                required: "Please select the organisation",
+                required: "Please select your Gender",
               })}
             >
-                          <option selected value={Gender.FEMALE}>Female</option>
+                          <option value={Gender.FEMALE}>Female</option>
                 <option value={ Gender.MALE}>Male</option>
                           
             </select>
@@ -190,14 +194,14 @@ export function UserRegister(): JSX.Element {
           </label>
         
         <select
-              id="gender"
+              id="nationality"
               className="rounded-sm bg-gray-50 text-gray-600 ring-1 ring-gray-200 outline-none w-full py-[0.75em] px-3"
               {...register("nationality", {
-                required: "Please select the organisation",
+                required: "Please select your nationality",
               })}
             >
-                          <option selected value="">Rwandan</option>
-                <option value="">Kenyan</option>
+                          <option value="Rwandan">Rwandan</option>
+                <option value="Kenyan">Kenyan</option>
                           
             </select>
             <span className="text-red-600 text-xs block mt-2 w-48">
@@ -206,23 +210,44 @@ export function UserRegister(): JSX.Element {
         </div>
         
         <div className="form-group mt-7 w-full">
-          <label htmlFor="profile" className="mb-2 text-sm capitalize block">
-            Profile Photo
+          <label htmlFor="profilePicture" className="mb-2 text-sm capitalize block">
+            Profile Picture
           </label>
           <div className="bg-gray-50  ring-1 ring-gray-200 outline-none w-full py-2 px-3 flex gap-2 items-center rounded">
-        
           <input
-            type="file"
-            id="profile"
-            className="w-full bg-transparent   focus:outline-none"
-            {...register("profile", {
-              required: "Please enter your Lastname",
+              type="file"
+            id="profilePicture"
+            className="w-full bg-transparent focus:outline-none"
+            {...register("profilePicture", {
+              required: "Add Profile Picture",
             })}
-          />
+            />
+            
             </div>
           <span className="text-red-600 block text-xs mt-2">
-            {errors.profile && errors.profile.message}
+            {errors.profilePicture && errors.profilePicture.message}
           </span>
+        </div>
+
+        <div className="form-group mt-7 w-full">
+          <label htmlFor="accountType" className="mb-2 text-sm capitalize block">
+            Role
+          </label>
+        
+        <select
+              id="role"
+              className="rounded-sm bg-gray-50 text-gray-600 ring-1 ring-gray-200 outline-none w-full py-[0.75em] px-3"
+              {...register("accountType", {
+                required: "Please select the organisation",
+              })}
+            >
+                          <option selected value="user">User</option>
+                <option value="admin">Admin</option>
+                          
+            </select>
+            <span className="text-red-600 text-xs block mt-2 w-48">
+              {errors.accountType?.message}
+            </span>
         </div>
         
         <div className="form-group mt-7 w-full">

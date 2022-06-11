@@ -4,6 +4,10 @@ export interface UserAuth {
   password: string;
 }
 
+export interface UserVerifyAccount {
+  code: string;
+}
+
 export interface UserRegisterData {
   names: string,
   email: string,
@@ -12,7 +16,8 @@ export interface UserRegisterData {
   dob: string,
   maritialStatus: MaritialStatus,
   nationality: string,
-  profile: any,
+  profilePicture: any,
+  accountType: string,
   password:string
 }
 
