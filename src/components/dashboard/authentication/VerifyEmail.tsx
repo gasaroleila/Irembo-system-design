@@ -33,10 +33,7 @@ export function UserVerifyEmail(): JSX.Element {
         handleToast({ status: "error", message: response.message });
       } else {
         handleToast({ status: "success", message: response.message });
-        localStorage.setItem(
-          "access_token",
-          JSON.stringify(response.data.access_token)
-        );
+        
         navigate("/login");
       }
       handleLoading(false);
@@ -46,7 +43,7 @@ export function UserVerifyEmail(): JSX.Element {
     } catch (error:any) {
       handleLoading(false);
       console.log("Error occured: ", error);
-      handleToast({ status: "error", message: error.response.data });
+      handleToast({ status: "error", message: error.message });
     }
   };
   return (

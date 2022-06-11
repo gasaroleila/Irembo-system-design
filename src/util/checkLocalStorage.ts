@@ -1,4 +1,4 @@
-export function checkLocalStorage(key:string) {
+export  function checkLocalStorage(key:string) {
   let keyValue: string =''
   try {
     if (typeof localStorage !== 'undefined') {

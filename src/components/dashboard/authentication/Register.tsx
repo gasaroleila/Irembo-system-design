@@ -27,19 +27,33 @@ export function UserRegister(): JSX.Element {
 
   const registerForm: SubmitHandler<UserRegisterData> = async (data: any) => {
     data.profilePicture = await data.profilePicture[0]
-   console.log("profile",data.profilePicture)
+    
+    let newUser = new FormData()
+    newUser.append('accountType', data.accountType)
+    newUser.append('age',data.age)
+    newUser.append('dob',data.dob)
+    newUser.append('email',data.email)
+    newUser.append('gender',data.gender)
+    newUser.append('maritialStatus',data.maritialStatus)
+    newUser.append('names', data.names)
+    newUser.append('nationality', data.nationality)
+    newUser.append('password', data.password)
+    newUser.append('profilePicture', data.profilePicture)
+    
     handleLoading(true);
     const userService = new UserService();
     try {
-      const response = await userService.register(data);
+      const response = await userService.register(newUser);
+      console.log('res',response)
       if (response.success === false) {
         handleToast({ status: "error", message: response.message });
       } else {
+        console.log('success')
         handleToast({ status: "success", message: response.message });
-        localStorage.setItem(
-          "access_token",
-          JSON.stringify(response.data.access_token)
-        );
+        // localStorage.setItem(
+        //   "access_token",
+        //   JSON.stringify(response.data.access_token)
+        // );
         navigate("/verifyEmail");
       }
       handleLoading(false);
@@ -48,7 +62,7 @@ export function UserRegister(): JSX.Element {
       }, 3000);
     } catch (error:any) {
       handleLoading(false);
-      console.log("Error occured: ", error.response.data.message);
+      console.log("Error occured: ", error.response);
       handleToast({ status: "error", message: "An Error Occured, Try again!"});
 
     }

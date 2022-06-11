@@ -35,7 +35,7 @@ export function UserLogin(): JSX.Element {
         handleToast({ status: "success", message: response.message });
         localStorage.setItem(
           "access_token",
-          JSON.stringify(response.data.access_token)
+          JSON.stringify(response.token)
         );
         navigate("/");
       }
@@ -45,8 +45,8 @@ export function UserLogin(): JSX.Element {
       }, 3000);
     } catch (error:any) {
       handleLoading(false);
-      handleToast({ status: "error", message: error.response.data });
-      console.log("Error occured: ", error);
+      handleToast({ status: "error", message: error.message });
+      console.log("Error occured: ", error.message.message);
     }
   };
   return (

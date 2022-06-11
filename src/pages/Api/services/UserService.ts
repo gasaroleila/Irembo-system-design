@@ -13,7 +13,13 @@ export class UserService{
         return response.data
     }
 
-    async register(body: UserRegisterData) {
+    async register(body: any) {
+        console.log('there')
+        let response = await axios.post("http://localhost:4000/register",body)
+        return response.data
+    }
+
+    async uploadProfile(body: any) {
         console.log('there')
         let response = await axios.post("http://localhost:4000/register",body)
         return response.data
