@@ -37,6 +37,10 @@ export function UserLogin(): JSX.Element {
           "access_token",
           JSON.stringify(response.token)
         );
+        localStorage.setItem(
+          "current_user",
+          JSON.stringify(response.data)
+        );
         navigate("/");
       }
       handleLoading(false);

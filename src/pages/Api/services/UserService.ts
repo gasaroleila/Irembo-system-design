@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { checkLocalStorage } from '../../../util/checkLocalStorage';
-import { OtherUserInfo, User, UserAuth, UserRegisterData, UserVerifyAccount } from '../../../types/types';
+import { OtherUserInfo, User, UserAuth, userForgotPassword, UserRegisterData, userResetPassword, UserVerifyAccount } from '../../../types/types';
 export class UserService{
 
     private token:string =  checkLocalStorage('access_token')
@@ -19,15 +19,14 @@ export class UserService{
         return response.data
     }
 
-    async uploadProfile(body: any) {
-        console.log('there')
-        let response = await axios.post("http://localhost:4000/register",body)
-        return response.data
-    }
-
     async verifyEmail(body: UserVerifyAccount) {
         console.log('there')
         let response = await axios.patch("http://localhost:4000/verifyEmail",body)
+        return response.data
+    }
+
+    async sendResetCode(body:userForgotPassword){
+        let response = await axios.post(`http://localhost:4000/sendResetCode`,body)
         return response.data
     }
 

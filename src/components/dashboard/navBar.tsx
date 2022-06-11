@@ -8,7 +8,7 @@ export default function NavBar(): JSX.Element {
   const navigate = useNavigate();
 
   const handleLogOut = () => {
-    localStorage.removeItem("tuura_auth_token");
+    localStorage.removeItem("access_token");
     localStorage.removeItem("currentUser");
     navigate("/login");
   };

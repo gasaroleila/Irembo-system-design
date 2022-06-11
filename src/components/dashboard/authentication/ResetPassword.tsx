@@ -1,16 +1,50 @@
-import { useRef } from 'react'
+import { useRef, useState } from 'react'
 
 import Button from './button'
 
 import { useForm, SubmitHandler } from 'react-hook-form'
-import { userResetPassword } from '../../../types/types'
+import { userForgotPassword, userResetPassword } from '../../../types/types'
+import { UserService } from '../../../pages/Api/services/UserService'
+import { useNavigate } from 'react-router'
 
 export function UserResetPassword(): JSX.Element {
-  const { register, handleSubmit, formState: { errors }, watch } = useForm<userResetPassword>()
+
+  const navigate = useNavigate();
+
+  const { register, handleSubmit, formState: { errors }, watch } = useForm<userForgotPassword>()
   const newPassword = useRef({});
-  newPassword.current = watch("newPassword", "");
-  const resetPassword: SubmitHandler<userResetPassword> = data => {
-    console.log(data)
+  // newPassword.current = watch("newPassword", "");
+  const [loading, handleLoading] = useState<Boolean>(false);
+  const [{ status, message }, handleToast] = useState({
+    status: "",
+    message: "",
+  });
+
+  const resetPassword: SubmitHandler<userForgotPassword> = async(data) => {
+    handleLoading(true);
+    const userService = new UserService();
+    try {
+      const response = await userService.sendResetCode(data);
+      if (response.success === false) {
+        handleToast({ status: "error", message: response.message });
+      } else {
+        handleToast({ status: "success", message: response.message });
+        localStorage.setItem(
+          "access_token",
+          JSON.stringify(response.token)
+        );
+        
+        navigate("/login");
+      }
+      handleLoading(false);
+      setTimeout(() => {
+        handleToast({ status: "", message: "" });
+      }, 3000);
+    } catch (error:any) {
+      handleLoading(false);
+      handleToast({ status: "error", message: error.message });
+      console.log("Error occured: ", error.message.message);
+    }
   }
   return (
         <div>
