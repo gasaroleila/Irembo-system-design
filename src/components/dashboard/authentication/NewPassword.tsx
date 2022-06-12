@@ -6,6 +6,7 @@ import { useForm, SubmitHandler } from 'react-hook-form'
 import { userForgotPassword, userResetPassword } from '../../../types/types'
 import { UserService } from '../../../pages/Api/services/UserService'
 import { useNavigate } from 'react-router'
+import { checkLocalStorage } from '../../../util/checkLocalStorage'
 
 export function UserNewPassword(): JSX.Element {
 
@@ -23,47 +24,43 @@ export function UserNewPassword(): JSX.Element {
   const newPasswordForm: SubmitHandler<userResetPassword> = async(data) => {
     handleLoading(true);
     const userService = new UserService();
-    // try {
-    //   const response = await userService;
-    //   if (response.success === false) {
-    //     handleToast({ status: "error", message: response.message });
-    //   } else {
-    //     handleToast({ status: "success", message: response.message });
-    //     localStorage.setItem(
-    //       "access_token",
-    //       JSON.stringify(response.token)
-    //     );
-        
-    //     navigate("/");
-    //   }
-    //   handleLoading(false);
-    //   setTimeout(() => {
-    //     handleToast({ status: "", message: "" });
-    //   }, 3000);
-    // } catch (error:any) {
-    //   handleLoading(false);
-    //   handleToast({ status: "error", message: error.message });
-    // }
+    const user = checkLocalStorage("access_token");
+    try {
+      const response = await userService.resetPassword(data,user?._id);
+      if (response.success === false) {
+        handleToast({ status: "error", message: response.message });
+      } else {
+        handleToast({ status: "success", message: response.message });
+        navigate("/login");
+      }
+      handleLoading(false);
+      setTimeout(() => {
+        handleToast({ status: "", message: "" });
+      }, 3000);
+    } catch (error:any) {
+      handleLoading(false);
+      handleToast({ status: "error", message: error.message });
+    }
   }
   return (
         <div>
         <form onSubmit={handleSubmit(newPasswordForm)} className="text-sm pb-14">
         
          <div className="row mt-7 w-full">
-         <label htmlFor="email" className="mb-2 text-sm capitalize block">Activation Code</label>
+         <label htmlFor="resetLink" className="mb-2 text-sm capitalize block">Activation Link</label>
           <input
             type="number"
-            id="code"
+            id="resetLink"
             className= "rounded-sm bg-gray-50 ring-1 ring-gray-200 outline-none w-full py-2 px-3"
             {
-              ...register('code',
+              ...register('resetLink',
               {
                   required: 'Please enter a valid code'
               })
             }
            />
 
-        <span className="text-red-600 text-xs block mt-2">{errors.code?.message}</span>
+        <span className="text-red-600 text-xs block mt-2">{errors.resetLink?.message}</span>
 
            </div>
 

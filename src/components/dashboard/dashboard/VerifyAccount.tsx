@@ -22,7 +22,7 @@ export default function VerifyAccount(): JSX.Element {
 
   const navigate = useNavigate();
 
-  const login: SubmitHandler<OtherUserInfo> = async (data) => {
+  const updateInfo: SubmitHandler<OtherUserInfo> = async (data) => {
     handleLoading(true);
     const userService = new UserService();
     try {
@@ -48,10 +48,9 @@ export default function VerifyAccount(): JSX.Element {
   };
   return (
     <div className="my-10 w-1/5 mx-auto text-sm">
-      
       {/* toast */}
       {status === "error" && <Toast status={status} message={message} />}
-      <form onSubmit={handleSubmit(login)}>
+      <form onSubmit={handleSubmit(updateInfo)}>
         <div className="form-group mt-7 w-full">
           <label htmlFor="email" className="mb-2 text-sm capitalize block">
             NID/Passport Number
@@ -60,17 +59,17 @@ export default function VerifyAccount(): JSX.Element {
            {/* <Card className="text-gray-500" strokeWidth={0.5}/> */}
          <input
             type="number"
-            id="ID"
+            id="documentNumber"
             placeholder=""
             className="w-full bg-transparent   focus:outline-none"
-            {...register("ID", {
+            {...register("documentNumber", {
               required: "Please enter a valid ID or passport number",
             })}
           />
            </div>
 
           <span className="text-red-600 text-xs block mt-2">
-            {errors.ID && errors.ID.message}
+            {errors.documentNumber && errors.documentNumber.message}
           </span>
         </div>
         <div className="form-group mt-7 w-full">

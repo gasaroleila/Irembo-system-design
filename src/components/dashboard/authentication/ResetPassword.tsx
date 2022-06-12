@@ -24,7 +24,7 @@ export function UserResetPassword(): JSX.Element {
     handleLoading(true);
     const userService = new UserService();
     try {
-      const response = await userService.sendResetCode(data);
+      const response = await userService.sendResetLink(data);
       if (response.success === false) {
         handleToast({ status: "error", message: response.message });
       } else {

@@ -28,20 +28,20 @@ export function UserLogin(): JSX.Element {
     handleLoading(true);
     const userService = new UserService();
     try {
-      const response = await userService.login(data);
+      const response = await userService.sendLoginLink(data);
       if (response.success === false) {
         handleToast({ status: "error", message: response.message });
       } else {
         handleToast({ status: "success", message: response.message });
-        localStorage.setItem(
-          "access_token",
-          JSON.stringify(response.token)
-        );
-        localStorage.setItem(
-          "current_user",
-          JSON.stringify(response.data)
-        );
-        navigate("/");
+        // localStorage.setItem(
+        //   "access_token",
+        //   JSON.stringify(response.token)
+        // );
+        // localStorage.setItem(
+        //   "current_user",
+        //   JSON.stringify(response.user)
+        // );
+        // navigate("/loginWithLink");
       }
       handleLoading(false);
       setTimeout(() => {
@@ -49,7 +49,7 @@ export function UserLogin(): JSX.Element {
       }, 3000);
     } catch (error:any) {
       handleLoading(false);
-      handleToast({ status: "error", message: error.message });
+      // handleToast({ status: "error", message: error.message });
       console.log("Error occured: ", error.message.message);
     }
   };

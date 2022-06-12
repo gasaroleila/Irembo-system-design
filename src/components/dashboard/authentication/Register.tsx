@@ -274,7 +274,7 @@ export function UserRegister(): JSX.Element {
           <input
             type="password"
             id="password"
-            className="w-full bg-transparent   focus:outline-none"
+            className="w-full bg-transparent focus:outline-none"
             {...register("password", {
               required: "Please enter password",
               minLength: 8,
