@@ -29,8 +29,9 @@ export function UserLogin(): JSX.Element {
     const userService = new UserService();
     try {
       const response = await userService.sendLoginLink(data);
+      console.log(response)
       if (response.success === false) {
-        handleToast({ status: "error", message: response.message });
+        // handleToast({ status: "error", message: response.message });
       } else {
         handleToast({ status: "success", message: response.message });
         // localStorage.setItem(
@@ -49,8 +50,8 @@ export function UserLogin(): JSX.Element {
       }, 3000);
     } catch (error:any) {
       handleLoading(false);
-      // handleToast({ status: "error", message: error.message });
-      console.log("Error occured: ", error.message.message);
+      console.log(error)
+      handleToast({ status: "error", message: error.response.data});
     }
   };
   return (
@@ -117,7 +118,7 @@ export function UserLogin(): JSX.Element {
           </a>
         </Link>
 
-        <Button title="Sign in" loading={loading} loadingTitle="Signing ..." />
+        <Button title="Sign in"   />
       </form>
     </div>
   );

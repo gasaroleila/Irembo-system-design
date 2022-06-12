@@ -11,6 +11,8 @@ import ResetPassword from './pages/resetPassword';
 import Dashboard from './pages/dashboard';
 import VerifyEmail from './pages/verifyEmail';
 import LoginWithLink from './pages/loginWithLink';
+import ResetPasswordWithLink from './pages/resetPasswordWithLink';
+import { ResetPasswordRedirect } from './components/dashboard/authentication/CheckResetPassword';
 
 
 function App() {
@@ -20,6 +22,8 @@ function App() {
       <Route path="/login/:userId/:code" element={<LoginWithLink />} />
       <Route path="/register" element={<Register />} />
       <Route path="/resetPassword" element={<ResetPassword />} />
+      <Route path="/resetPassword/:userId" element={<ResetPasswordWithLink />} />
+      <Route path="/resetPassword/:userId/:code" element={<ResetPasswordRedirect />} />
       <Route path="/verifyEmail" element={<VerifyEmail />} />
       <Route path="/" element={<Dashboard/>}/>
       

@@ -29,12 +29,12 @@ export function UserResetPassword(): JSX.Element {
         handleToast({ status: "error", message: response.message });
       } else {
         handleToast({ status: "success", message: response.message });
-        localStorage.setItem(
-          "access_token",
-          JSON.stringify(response.token)
-        );
+        // localStorage.setItem(
+        //   "access_token",
+        //   JSON.stringify(response.token)
+        // );
         
-        navigate("/");
+        // navigate("/");
       }
       handleLoading(false);
       setTimeout(() => {

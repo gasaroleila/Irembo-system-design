@@ -35,13 +35,28 @@ export class UserService{
         return response.data
     }
 
-    async resetPassword(body:userResetPassword, userId:string){
-        let response = await axios.post(`http://localhost:4000/resetPassword/${userId}`,body)
+    async checkResetLink(code:any, userId:any){
+        let response = await axios.post(`http://localhost:4000/forgotPassword/checkResetLink/${userId}/${code}`)
+        return response
+    }
+
+    async resetPassword(body: userResetPassword, userId: any){
+        let response = await axios.patch(`http://localhost:4000/resetPassword/${userId}`,body)
         return response.data
     }
 
-    async addOtherInfo(body:OtherUserInfo, userId:String){
-        let response = await axios.put(`http://localhost:4000/updateInfo/${userId}`,body,
+    async addOtherInfo(body:any, userId:String){
+        let response = await axios.patch(`http://localhost:4000/updateInfo/${userId}`,body,
+        {
+            headers:{
+                Authorization: `Bearer ${this.token}`
+            }
+        })
+        return response.data
+    }
+
+    async verifyAccount(userId:String){
+        let response = await axios.patch(`http://localhost:4000/verifyAccount/${userId}`,
         {
             headers:{
                 Authorization: `Bearer ${this.token}`

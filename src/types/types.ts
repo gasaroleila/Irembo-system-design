@@ -26,7 +26,7 @@ export interface UserRegisterData {
 }
 
 export interface OtherUserInfo {
-  documentNumber: number,
+  documentNumber: string,
   document: any
 }
 
@@ -35,7 +35,6 @@ export interface userForgotPassword {
 }
 
 export interface userResetPassword {
-  resetLink: string;
   newPassword: string;
   confirmPassword: string;
 }
@@ -52,6 +51,22 @@ export interface User {
   profilePicture: any,
   accountType: string,
   password: string
+}
+
+export interface  IPagination {
+  url: string;
+  label: object;
+  active: boolean;
+}
+export interface PaginationProps {
+  pages: IPagination[];
+  service: string;
+}
+
+export interface IPaginationButton {
+  service: string;
+  page: number;
+  rows: number;
 }
 
 
