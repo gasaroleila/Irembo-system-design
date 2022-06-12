@@ -63,7 +63,7 @@ export function UserRegister(): JSX.Element {
     } catch (error:any) {
       handleLoading(false);
       console.log("Error occured: ", error.response);
-      handleToast({ status: "error", message: "An Error Occured, Try again!"});
+      handleToast({ status: "error", message: error.response.data});
 
     }
   };
@@ -274,11 +274,17 @@ export function UserRegister(): JSX.Element {
           <input
             type="password"
             id="password"
-            className="w-full bg-transparent   focus:outline-none"
+            className="w-full bg-transparent focus:outline-none"
             {...register("password", {
               required: "Please enter password",
-              minLength: 8,
-              pattern: /^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{8,}$/ //min 8 letter password, with at least a symbol, upper and lower case letters and a number
+              minLength: {
+                value: 8,
+                message: "Password should be atleast 8 characters"
+              },
+              pattern: {
+                value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
+                message: "Password should be atleast 8 letters, a symbol, upper and lower case letters and a number"
+              } //min 8 letter password, with at least a symbol, upper and lower case letters and a number
             })}
           />
             </div>

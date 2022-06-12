@@ -6,6 +6,8 @@ import { useForm, SubmitHandler } from 'react-hook-form'
 import { userForgotPassword, userResetPassword } from '../../../types/types'
 import { UserService } from '../../../pages/Api/services/UserService'
 import { useNavigate } from 'react-router'
+import { checkLocalStorage } from '../../../util/checkLocalStorage'
+import { useParams } from 'react-router'
 
 export function UserNewPassword(): JSX.Element {
 
@@ -13,59 +15,43 @@ export function UserNewPassword(): JSX.Element {
 
   const { register, handleSubmit, formState: { errors }, watch } = useForm<userResetPassword>()
   const newPassword = useRef({});
-  // newPassword.current = watch("newPassword", "");
+  newPassword.current = watch("newPassword", "");
   const [loading, handleLoading] = useState<Boolean>(false);
   const [{ status, message }, handleToast] = useState({
     status: "",
     message: "",
   });
 
-  const newPasswordForm: SubmitHandler<userResetPassword> = async(data) => {
+  let { userId } = useParams()
+
+
+  const newPasswordForm: SubmitHandler<userResetPassword> = async (data) => {
     handleLoading(true);
+    console.log(loading)
     const userService = new UserService();
-    // try {
-    //   const response = await userService;
-    //   if (response.success === false) {
-    //     handleToast({ status: "error", message: response.message });
-    //   } else {
-    //     handleToast({ status: "success", message: response.message });
-    //     localStorage.setItem(
-    //       "access_token",
-    //       JSON.stringify(response.token)
-    //     );
-        
-    //     navigate("/");
-    //   }
-    //   handleLoading(false);
-    //   setTimeout(() => {
-    //     handleToast({ status: "", message: "" });
-    //   }, 3000);
-    // } catch (error:any) {
-    //   handleLoading(false);
-    //   handleToast({ status: "error", message: error.message });
-    // }
+
+    
+    try {
+      console.log('there',userId)
+      const response = await userService.resetPassword(data,userId);
+      if (response.success === false) {
+        handleToast({ status: "error", message: response.message });
+      } else {
+        handleToast({ status: "success", message: response.message });
+        navigate("/login");
+      }
+      handleLoading(false);
+      setTimeout(() => {
+        handleToast({ status: "", message: "" });
+      }, 3000);
+    } catch (error:any) {
+      handleLoading(false);
+      handleToast({ status: "error", message: error.message });
+    }
   }
   return (
         <div>
         <form onSubmit={handleSubmit(newPasswordForm)} className="text-sm pb-14">
-        
-         <div className="row mt-7 w-full">
-         <label htmlFor="email" className="mb-2 text-sm capitalize block">Activation Code</label>
-          <input
-            type="number"
-            id="code"
-            className= "rounded-sm bg-gray-50 ring-1 ring-gray-200 outline-none w-full py-2 px-3"
-            {
-              ...register('code',
-              {
-                  required: 'Please enter a valid code'
-              })
-            }
-           />
-
-        <span className="text-red-600 text-xs block mt-2">{errors.code?.message}</span>
-
-           </div>
 
            <div className=" mt-7 w-full grid grid-cols-1 lg:grid-cols-2 gap-5">
            <div className="form-group">
@@ -76,10 +62,10 @@ export function UserNewPassword(): JSX.Element {
             className = "rounded-sm bg-gray-50 ring-1 ring-gray-200 outline-none w-full py-2 px-3"
             {...register('newPassword',
             {
-                required: "Please enter a new password of atleast 6 characters",
+                required: "Please enter a new password of atleast 8 characters",
                 minLength: {
-                    value: 6,
-                    message: "must be 6 characters"
+                    value: 8,
+                    message: "must be 8 characters"
                 }
             })}
            />
@@ -104,15 +90,15 @@ export function UserNewPassword(): JSX.Element {
         <span className="text-red-600 text-xs block mt-2">
             {
             errors.confirmPassword?.message 
-            && <span className="text-red-600 text-xs block mt-2">Passwords do not match</span>
+                && <span className="text-red-600 text-xs block mt-2">{errors.confirmPassword.message}</span>
             }</span>
            </div>
 
            </div>
          
 
-           <Button title="reset password"/>
-           </form >
+           <Button title="reset password" loading={loading} loadingTitle="Resetting password ..." />
+           </form>
         </div >
     )
 }

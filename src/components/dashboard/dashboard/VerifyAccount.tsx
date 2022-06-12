@@ -7,6 +7,7 @@ import { useState, useContext } from "react";
 import { Lock, Mail } from "react-feather";
 import { Link, useNavigate, Navigate } from "react-router-dom";
 import Button from "../authentication/button";
+import { checkLocalStorage } from "../../../util/checkLocalStorage";
 
 export default function VerifyAccount(): JSX.Element {
   const {
@@ -22,20 +23,34 @@ export default function VerifyAccount(): JSX.Element {
 
   const navigate = useNavigate();
 
-  const login: SubmitHandler<OtherUserInfo> = async (data) => {
+  const updateInfo: SubmitHandler<OtherUserInfo> = async (data) => {
     handleLoading(true);
     const userService = new UserService();
+    const currentUser = checkLocalStorage("current_user");
+
+    console.log('document',data.document[0])
+    let info = new FormData()
+    info.append("documentImage", data.document[0]),
+    info.append("documentNumber", data.documentNumber)
     try {
-      const response = await userService.addOtherInfo(data, "");
+      const response = await userService.addOtherInfo(info, currentUser._id);
       if (response.success === false) {
         handleToast({ status: "error", message: response.message });
       } else {
         handleToast({ status: "success", message: response.message });
-        localStorage.setItem(
-          "access_token",
-          JSON.stringify(response.data.access_token)
-        );
-        navigate("/");
+
+        setTimeout(async() => {
+          
+          const response2 = await userService.verifyAccount(currentUser._id)
+
+          if (response2.success) {
+            handleToast({ status: "success", message: response2.message })
+            
+            localStorage.setItem("current_user", JSON.stringify(response2.data))
+          }
+
+        }, 3000);
+        // window.location.reload()
       }
       handleLoading(false);
       setTimeout(() => {
@@ -48,10 +63,9 @@ export default function VerifyAccount(): JSX.Element {
   };
   return (
     <div className="my-10 w-1/5 mx-auto text-sm">
-      
       {/* toast */}
-      {status === "error" && <Toast status={status} message={message} />}
-      <form onSubmit={handleSubmit(login)}>
+      {status === "error" || status === "success" && <Toast status={status} message={message} />}
+      <form onSubmit={handleSubmit(updateInfo)}>
         <div className="form-group mt-7 w-full">
           <label htmlFor="email" className="mb-2 text-sm capitalize block">
             NID/Passport Number
@@ -60,17 +74,17 @@ export default function VerifyAccount(): JSX.Element {
            {/* <Card className="text-gray-500" strokeWidth={0.5}/> */}
          <input
             type="number"
-            id="ID"
+            id="documentNumber"
             placeholder=""
             className="w-full bg-transparent   focus:outline-none"
-            {...register("ID", {
+            {...register("documentNumber", {
               required: "Please enter a valid ID or passport number",
             })}
           />
            </div>
 
           <span className="text-red-600 text-xs block mt-2">
-            {errors.ID && errors.ID.message}
+            {errors.documentNumber && errors.documentNumber.message}
           </span>
         </div>
         <div className="form-group mt-7 w-full">

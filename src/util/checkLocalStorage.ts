@@ -1,5 +1,5 @@
 export  function checkLocalStorage(key:string) {
-  let keyValue: string =''
+  let keyValue: any =''
   try {
     if (typeof localStorage !== 'undefined') {
       keyValue = localStorage.getItem(key)

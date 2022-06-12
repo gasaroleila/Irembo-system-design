@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { checkLocalStorage } from '../../../util/checkLocalStorage';
-import { OtherUserInfo, User, UserAuth, userForgotPassword, UserRegisterData, userResetPassword, UserVerifyAccount } from '../../../types/types';
+import { OtherUserInfo, User, UserAuth, userForgotPassword, userLogin, UserRegisterData, userResetPassword, UserVerifyAccount } from '../../../types/types';
 export class UserService{
 
     private token:string =  checkLocalStorage('access_token')
@@ -8,8 +8,13 @@ export class UserService{
 
     }
 
-    async login(body:UserAuth){
-        let response = await axios.post(`http://localhost:4000/login`,body)
+    async sendLoginLink(body:UserAuth){
+        let response = await axios.post(`http://localhost:4000/sendLoginLink`,body)
+        return response.data
+    }
+
+    async login(code:any, userId: any){
+        let response = await axios.post(`http://localhost:4000/login/${userId}/${code}`)
         return response.data
     }
 
@@ -25,8 +30,38 @@ export class UserService{
         return response.data
     }
 
-    async sendResetCode(body:userForgotPassword){
-        let response = await axios.post(`http://localhost:4000/forgotPassword/sendResetCode`,body)
+    async sendResetLink(body:userForgotPassword){
+        let response = await axios.post(`http://localhost:4000/forgotPassword/sendResetLink`,body)
+        return response.data
+    }
+
+    async checkResetLink(code:any, userId:any){
+        let response = await axios.post(`http://localhost:4000/forgotPassword/checkResetLink/${userId}/${code}`)
+        return response
+    }
+
+    async resetPassword(body: userResetPassword, userId: any){
+        let response = await axios.patch(`http://localhost:4000/resetPassword/${userId}`,body)
+        return response.data
+    }
+
+    async addOtherInfo(body:any, userId:String){
+        let response = await axios.patch(`http://localhost:4000/updateInfo/${userId}`,body,
+        {
+            headers:{
+                Authorization: `Bearer ${this.token}`
+            }
+        })
+        return response.data
+    }
+
+    async verifyAccount(userId:String){
+        let response = await axios.patch(`http://localhost:4000/verifyAccount/${userId}`,
+        {
+            headers:{
+                Authorization: `Bearer ${this.token}`
+            }
+        })
         return response.data
     }
 
@@ -135,15 +170,7 @@ export class UserService{
         return response.data
     }
 
-    async addOtherInfo(body:OtherUserInfo, id:String){
-        let response = await axios.put(`${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/users/${id}`,body,
-        {
-            headers:{
-                Authorization: `Bearer ${this.token}`
-            }
-        })
-        return response.data
-    }
+    
 
     async updateStatus(id:String,status:String){ 
         let response = await axios.put(`${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/organisation-users/${id}/status/${status}`, {},{

@@ -1,17 +1,21 @@
 import React from "react";
 import { useNavigate } from "react-router";
+import { checkLocalStorage } from "../../util/checkLocalStorage";
 import "./navBar.css";
 
 export default function NavBar(): JSX.Element {
-  // const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+
   
   const navigate = useNavigate();
+  const currentUser = checkLocalStorage("current_user")
 
   const handleLogOut = () => {
     localStorage.removeItem("access_token");
     localStorage.removeItem("currentUser");
     navigate("/login");
   };
+
+  console.log('names',currentUser.names)
 
   const handleShowNotifications = () => {
    
@@ -52,11 +56,14 @@ export default function NavBar(): JSX.Element {
             alt="current user"
           />
           <div className="current-user-info px-3 mr-8">
-            <p className="font-bold mb-0 text-small">
-              {"Gasaro" + " " + "Leila"}
+            <p className="font-bold mb-0 text-small flex items-center">
+              {currentUser?.names}
+              {
+                currentUser?.status === 'VERIFIED' && 
+                <span className="ml-1"><img src="/images/download.png" alt="badge" width={10} height={10}/></span>}
             </p>
             <span className="mt-0 text-[13px] font-medium">
-              {"leila@gmail.com"}
+            {currentUser?.email}
             </span>
           </div>
           <svg
