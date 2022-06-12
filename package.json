@@ -28,8 +28,13 @@
     "@vitejs/plugin-react": "^1.3.0",
     "autoprefixer": "^10.4.7",
     "postcss": "^8.4.14",
+    "process": "0.11.10",
     "tailwindcss": "^♠",
     "typescript": "^4.6.3",
     "vite": "^2.9.9"
+  },
+  "resolutions": {
+    "//": "See https://github.com/facebook/create-react-app/issues/11773",
+    "react-error-overlay": "6.0.9"
   }
 }

@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { checkLocalStorage } from '../../../util/checkLocalStorage';
-import { OtherUserInfo, User, UserAuth, UserRegisterData } from '../../../types/types';
+import { OtherUserInfo, User, UserAuth, userForgotPassword, UserRegisterData, userResetPassword, UserVerifyAccount } from '../../../types/types';
 export class UserService{
 
     private token:string =  checkLocalStorage('access_token')
@@ -9,17 +9,29 @@ export class UserService{
     }
 
     async login(body:UserAuth){
-        let response = await axios.post(`${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/auth/login`,body)
+        let response = await axios.post(`http://localhost:4000/login`,body)
         return response.data
     }
 
-    async register(body: UserRegisterData) {
-        let response = await axios.post(`${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/auth/login`,body)
+    async register(body: any) {
+        console.log('there')
+        let response = await axios.post("http://localhost:4000/register",body)
+        return response.data
+    }
+
+    async verifyEmail(body: UserVerifyAccount) {
+        console.log('there')
+        let response = await axios.patch("http://localhost:4000/verifyEmail",body)
+        return response.data
+    }
+
+    async sendResetCode(body:userForgotPassword){
+        let response = await axios.post(`http://localhost:4000/forgotPassword/sendResetCode`,body)
         return response.data
     }
 
     async getLoggedInUser(){
-        let response =  await axios.get(`${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/auth/current-user`,{
+        let response =  await axios.get(`${process.env.BACKEND_URL}/`,{
             headers:{
                 Authorization: `Bearer ${this.token}`
             }
