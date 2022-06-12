@@ -31,7 +31,6 @@ export interface userForgotPassword {
 }
 
 export interface userResetPassword {
-  email: string;
   code: number;
   newPassword: string;
   confirmPassword: string;

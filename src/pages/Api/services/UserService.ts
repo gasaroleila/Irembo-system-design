@@ -26,7 +26,7 @@ export class UserService{
     }
 
     async sendResetCode(body:userForgotPassword){
-        let response = await axios.post(`http://localhost:4000/sendResetCode`,body)
+        let response = await axios.post(`http://localhost:4000/forgotPassword/sendResetCode`,body)
         return response.data
     }
 
