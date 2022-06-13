@@ -31,7 +31,7 @@ export function UserLogin(): JSX.Element {
       const response = await userService.sendLoginLink(data);
       console.log(response)
       if (response.success === false) {
-        // handleToast({ status: "error", message: response.message });
+        handleToast({ status: "error", message: response.message });
       } else {
         handleToast({ status: "success", message: response.message });
         // localStorage.setItem(
@@ -51,8 +51,8 @@ export function UserLogin(): JSX.Element {
     } catch (error:any) {
       handleLoading(false);
       console.log(error)
-      handleToast({ status: "error", message: error.response.data});
-    }
+      handleToast({ status: "error", message: error.message});
+    } 
   };
   return (
     <div className="my-10 w-full text-sm">

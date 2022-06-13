@@ -25,7 +25,8 @@ export function ResetPasswordRedirect(): JSX.Element {
   const [loading, handleLoading] = useState<Boolean>(false);
 
     const navigate = useNavigate();
-    let { code, userId } = useParams()
+  let { code, userId } = useParams()
+  const currentUser = checkLocalStorage("current_user")
     
     const handleRedirect = async () => {
         //   const currentUser = checkLocalStorage("current_user");
@@ -34,6 +35,8 @@ export function ResetPasswordRedirect(): JSX.Element {
         console.log('res',response.status)
         if (response.status == 200) {
             navigate(`/resetPassword/${userId}`)
+        } else {
+          navigate(`/resetpassword`)
         }
         // else {
         //     navigate('/login')
@@ -44,10 +47,13 @@ export function ResetPasswordRedirect(): JSX.Element {
 
     })
 
-  return (
-    <div className="my-10 w-full text-sm">
-      <p className="px-12">redirecting ...</p>
-     
-    </div>
-  );
+  if (!currentUser.requestPasswordReset) {
+    return <Navigate to="/resetPassword" />
+  } else {
+    return (
+      <div className="my-10 w-full text-sm">
+        <p className="px-12">redirecting ...</p>
+      </div>
+    );
+  }
 }

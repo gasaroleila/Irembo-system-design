@@ -29,7 +29,7 @@ export function UserRegister(): JSX.Element {
     data.profilePicture = await data.profilePicture[0]
     
     let newUser = new FormData()
-    newUser.append('accountType', data.accountType)
+    newUser.append('accountType', "user")
     newUser.append('age',data.age)
     newUser.append('dob',data.dob)
     newUser.append('email',data.email)
@@ -243,7 +243,7 @@ export function UserRegister(): JSX.Element {
           </span>
         </div>
 
-        <div className="form-group mt-7 w-full">
+        {/* <div className="form-group mt-7 w-full">
           <label htmlFor="accountType" className="mb-2 text-sm capitalize block">
             Role
           </label>
@@ -262,7 +262,7 @@ export function UserRegister(): JSX.Element {
             <span className="text-red-600 text-xs block mt-2 w-48">
               {errors.accountType?.message}
             </span>
-        </div>
+        </div> */}
         
         <div className="form-group mt-7 w-full">
           <label htmlFor="password" className="mb-2 text-sm capitalize block">

@@ -52,7 +52,7 @@ export default function NavBar(): JSX.Element {
         <div className="nav-account-section flex justify-center items-center mr-16">
           <img
             className="inline-block h-12 w-12 rounded-full ring-2 ring-white"
-            src="/images/bruno-rodrigues-279xIHymPYY-unsplash.jpg"
+            src={currentUser.profilePicture}
             alt="current user"
           />
           <div className="current-user-info px-3 mr-8">

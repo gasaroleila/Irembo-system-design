@@ -24,7 +24,7 @@ export default function SignInSignUp(props: any): JSX.Element {
                     {/* <Image src={Logo} alt="logo" className="w-16 h-16" width="120" height="120" /> */}
 
                     <div className="rounded p-5 bg-primary text-white border ">Z</div>
-                    <h1 className="w-100 text-5xl font-bold text-white">CompanyZ <span className="block text-2xl font-extralight"></span></h1>
+                    <h1 className="w-100 text-5xl font-bold text-white">ZPlatform<span className="block text-2xl font-extralight"></span></h1>
                 </div>
             </div>
             <div className={`md:w-1/2 h-full ${props.formType === 'register' ? "overflow-y-scroll" : ""}`}>
@@ -37,7 +37,7 @@ export default function SignInSignUp(props: any): JSX.Element {
                             <div className="flex gap-5 items-center">
                             <div className="rounded py-2 px-3 bg-primary text-white border ">Z</div>
                                 {/* <Image src={Logo} alt="logo" className="" width="50" height="50" /> */}
-                                <h1 className="w-100 text-lg font-bold text-black">CompanyZ</h1>
+                                <h1 className="w-100 text-lg font-bold text-black">ZPlatform</h1>
 
                             </div>
                         </div>

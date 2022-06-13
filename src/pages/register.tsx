@@ -6,7 +6,7 @@ import SignInSignUp from '../layouts/SignIn'
 export default function Register():JSX.Element{
     return(
         
-        <SignInSignUp formType="register" heading="sign up" sub="Register to CompanyZ">
+        <SignInSignUp formType="register" heading="sign up" sub="Register to Zplatform">
             <div className="mt-24">
               <UserRegister/>
            </div>
