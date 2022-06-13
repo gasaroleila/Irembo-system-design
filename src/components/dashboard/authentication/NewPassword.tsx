@@ -9,6 +9,8 @@ import { Navigate, useNavigate } from 'react-router'
 import { checkLocalStorage } from '../../../util/checkLocalStorage'
 import { useParams } from 'react-router'
 import { Toast } from "../toasts/Toast";
+import { Api } from '../../../pages/Api/Api'
+import { EhttpMethod } from '../../../types/enums'
 
 
 export function UserNewPassword(): JSX.Element {
@@ -23,26 +25,21 @@ export function UserNewPassword(): JSX.Element {
     status: "",
     message: "",
   });
-  const [res, setRes] = useState<any>()
+  const [res, setRes] = useState<any>({})
+  const [isChecked, setIsChecked] = useState(false)
 
   let { userId } = useParams()
   const userService = new UserService();
 
-  const checkCanReset = async () => {
-    try {
-      const response1 = await userService.getUser(userId)
-      if (response1.data.requestPasswordReset) {
-         return true
-      }
 
-    } catch (err:any) {
-      return false
-    }
-  }
-
-  // useEffect(() => {
-  //   checkCanReset()
-  // })
+  
+  // checkCanReset()
+  //   .then(res => {
+  //     console.log(res)
+  //   }).catch(err => {
+  //     console.log("erro",err)
+  //   })
+  console.log("ressss", res)
 
   const newPasswordForm: SubmitHandler<userResetPassword> = async (data) => {
     handleLoading(true);
@@ -71,9 +68,28 @@ export function UserNewPassword(): JSX.Element {
     }
   }
 
+
+
+  useEffect(() => {
+    async function checkCanReset() {
+        const service = new Api()
+        await service.connect(`checkCanReset/${userId}`, EhttpMethod.GET)
+          .then(res => {
+            console.log("finaaaal", res)
+            setRes(res.status)
+            setIsChecked(true)
+          }).catch(err => {
+             
+           })
+    }
+
+    checkCanReset()
+  },[userId])
+
   console.log('res',res)
 
-  if (!checkCanReset) {
+
+  if (isChecked && res != 200) {
     return <Navigate to="/resetPassword" />
   } else {
     return (

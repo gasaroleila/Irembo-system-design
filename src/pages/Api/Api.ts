@@ -9,7 +9,7 @@ export class Api{
         method:EhttpMethod,
         body?:any
     ): Promise<any>{
-        const url = process.env.NEXT_PUBLIC_BASE_URL+'/api/v1'+endpoint;
+        const url = 'https://irembo-system-design-backend.herokuapp.com/'+endpoint;
         const content_type = endpoint.includes("upload")?'multipart/form-data':'application/json'
         const headers =  {
             'Content-Type': content_type,
