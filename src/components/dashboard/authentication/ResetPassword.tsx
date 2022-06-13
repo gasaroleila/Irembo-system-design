@@ -6,6 +6,8 @@ import { useForm, SubmitHandler } from 'react-hook-form'
 import { userForgotPassword, userResetPassword } from '../../../types/types'
 import { UserService } from '../../../pages/Api/services/UserService'
 import { useNavigate } from 'react-router'
+import { Toast } from "../toasts/Toast";
+
 
 export function UserResetPassword(): JSX.Element {
 
@@ -29,24 +31,25 @@ export function UserResetPassword(): JSX.Element {
         handleToast({ status: "error", message: response.message });
       } else {
         handleToast({ status: "success", message: response.message });
-        // localStorage.setItem(
-        //   "access_token",
-        //   JSON.stringify(response.token)
-        // );
-        
-        // navigate("/");
       }
       handleLoading(false);
       setTimeout(() => {
         handleToast({ status: "", message: "" });
       }, 3000);
-    } catch (error:any) {
+    } catch (error: any) {
+      console.log(error)
       handleLoading(false);
-      handleToast({ status: "error", message: error.message });
+      handleToast({ status: "error", message: error.response.data.message });
+      setTimeout(() => {
+        handleToast({ status: "", message: "" });
+      }, 3000);
     }
   }
   return (
-        <div>
+    <div>
+        {/* toast */}
+        {(status === "error" || status === "success") && <Toast status={status} message={message} />}
+      {/* toast ends here */}
         <form onSubmit={handleSubmit(resetPassword)} className="text-sm pb-14">
         <div className="row mt-7 w-full">
         <label htmlFor="email" className="mb-2 text-sm capitalize block">email address</label>
@@ -67,7 +70,7 @@ export function UserResetPassword(): JSX.Element {
 
          
 
-           <Button title="Send Reset Code"/>
+           <Button title="Send Reset Code" loading={loading} loadingTitle="Send Reset Code..."/>
            </form >
         </div >
     )

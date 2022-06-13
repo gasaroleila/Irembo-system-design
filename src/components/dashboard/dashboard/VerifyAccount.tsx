@@ -22,11 +22,11 @@ export default function VerifyAccount(): JSX.Element {
   const [loading, handleLoading] = useState<Boolean>(false);
 
   const navigate = useNavigate();
+  const currentUser = checkLocalStorage("current_user");
 
   const updateInfo: SubmitHandler<OtherUserInfo> = async (data) => {
     handleLoading(true);
     const userService = new UserService();
-    const currentUser = checkLocalStorage("current_user");
 
     console.log('document',data.document[0])
     let info = new FormData()
@@ -62,9 +62,25 @@ export default function VerifyAccount(): JSX.Element {
     }
   };
   return (
+    <div className="my-10">
+      <div className="flex  w-3/5 mx-24">
+        {/* <div> */}
+        <img
+            className="inline-block h-12 w-12 rounded-full ring-2 ring-white mr-4"
+            src={currentUser.profilePicture}
+            alt="current user"
+          />
+        {/* </div> */}
+        <div className="flex flex-col">
+        <h1 className="text-[17px]">Hello, <span className="font-bold">{currentUser.names}</span></h1>
+          <p className="text-gray-400">Welcome to ZPlatform</p>
+          </div>
+      </div>
     <div className="my-10 w-1/5 mx-auto text-sm">
       {/* toast */}
       {status === "error" || status === "success" && <Toast status={status} message={message} />}
+      
+      <h1>Fill the form to verify your account</h1>
       <form onSubmit={handleSubmit(updateInfo)}>
         <div className="form-group mt-7 w-full">
           <label htmlFor="email" className="mb-2 text-sm capitalize block">
@@ -109,6 +125,7 @@ export default function VerifyAccount(): JSX.Element {
 
         <Button title="Submit" loading={loading} loadingTitle="Submitting..." />
       </form>
-    </div>
+      </div>
+      </div>
   );
 }

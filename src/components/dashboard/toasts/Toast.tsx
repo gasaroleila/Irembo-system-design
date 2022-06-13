@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import toast , { Toaster }from 'react-hot-toast';
-import { ToastProps } from '../../../types/types';
-export function Toast(props: ToastProps):JSX.Element{
+// import { ToastProps } from '../../../types/types';
+export function Toast(props: any):JSX.Element{
 useEffect(() =>{
   if(props.status === 'success'){
     toast.success(props.message,{

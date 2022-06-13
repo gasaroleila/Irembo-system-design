@@ -5,14 +5,12 @@ import { UserAuth, userLogin } from "../../../types/types";
 import { Toast } from "../toasts/Toast";
 import { UserService } from "../../../pages/Api/services/UserService";
 import { useState, useContext, useEffect } from "react";
-import { UserContext } from "./ContextProvider";
 import { Lock, Mail } from "react-feather";
 import { Link, useNavigate, Navigate } from "react-router-dom";
 import { checkLocalStorage } from "../../../util/checkLocalStorage";
 import { useParams } from "react-router";
 
 export function UserLoginWithLink(): JSX.Element {
-  const { authError }: any = useContext(UserContext);
   const {
     register,
     handleSubmit,
