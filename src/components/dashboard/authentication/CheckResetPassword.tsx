@@ -48,7 +48,6 @@ export function ResetPasswordRedirect(): JSX.Element {
     const handleRedirect = async () => {
         //   const currentUser = checkLocalStorage("current_user");
         const response = await userService.checkResetLink(code, userId);
-        console.log('res',response.status)
         if (response.status == 200) {
           navigate(`/resetPassword/${userId}`)
           
