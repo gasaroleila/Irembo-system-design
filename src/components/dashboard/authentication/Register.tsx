@@ -4,14 +4,12 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { UserAuth, UserRegisterData } from "../../../types/types";
 import { UserService } from "../../../pages/Api/services/UserService";
 import { useState, useContext } from "react";
-import { UserContext } from "./ContextProvider";
 import { Lock, Mail } from "react-feather";
 import { Link, useNavigate, Navigate } from "react-router-dom";
 import { Gender, MaritialStatus } from "../../../types/enums";
 import { Toast } from "../toasts/Toast";
 
 export function UserRegister(): JSX.Element {
-  const { authError }: any = useContext(UserContext);
   const {
     register,
     handleSubmit,
@@ -44,16 +42,9 @@ export function UserRegister(): JSX.Element {
     const userService = new UserService();
     try {
       const response = await userService.register(newUser);
-      console.log('res',response)
       if (response.success === false) {
         handleToast({ status: "error", message: response.message });
       } else {
-        console.log('success')
-        handleToast({ status: "success", message: response.message });
-        // localStorage.setItem(
-        //   "access_token",
-        //   JSON.stringify(response.data.access_token)
-        // );
         navigate("/verifyEmail");
       }
       handleLoading(false);
@@ -62,15 +53,17 @@ export function UserRegister(): JSX.Element {
       }, 3000);
     } catch (error:any) {
       handleLoading(false);
-      console.log("Error occured: ", error.response);
-      handleToast({ status: "error", message: error.response.data});
-
+      console.log(error.response.data)
+      handleToast({ status: "error", message: error?.response?.data || "An Error occured, Try again!"});
+      setTimeout(() => {
+        handleToast({ status: "", message: "" });
+      }, 3000);
     }
   };
   return (
     <div className="my-10 w-full text-sm">
       {/* toast */}
-      {status === "error" && <Toast status={status} message={message} />}
+      {(status === "error" || status === "success") && <Toast status={status} message={message} />}
       <form onSubmit={handleSubmit(registerForm)} className="pb-[3em]">
         <div className="form-group mt-7 w-full">
           <label htmlFor="names" className="mb-2 text-sm capitalize block">
@@ -270,7 +263,6 @@ export function UserRegister(): JSX.Element {
           </label>
           <div className="bg-gray-50  ring-1 ring-gray-200 outline-none w-full py-2 px-3 flex gap-2 items-center rounded">
         
-        <Lock className="text-gray-500" strokeWidth={0.5}/>
           <input
             type="password"
             id="password"

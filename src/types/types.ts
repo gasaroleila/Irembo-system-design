@@ -35,6 +35,7 @@ export interface userForgotPassword {
 }
 
 export interface userResetPassword {
+  oldPassword: string,
   newPassword: string;
   confirmPassword: string;
 }

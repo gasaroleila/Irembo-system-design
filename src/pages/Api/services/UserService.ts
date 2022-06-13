@@ -65,32 +65,15 @@ export class UserService{
         return response.data
     }
 
-    async getLoggedInUser(){
-        let response =  await axios.get(`${process.env.BACKEND_URL}/`,{
-            headers:{
-                Authorization: `Bearer ${this.token}`
-            }
-        });
+    async checkCanReset(userId: any){
+        let response =  await axios.get(`http://localhost:4000/checkCanReset/${userId}`);
         return response.data
     }
 
-    async getUser(id:string,service:string){
-        let response
-        if(service === 'organisation'){
-           response = await axios.get(`${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/organisation-users/${id}`,{
-                headers:{
-                    Authorization: `Bearer ${this.token}`
-                }
-            });
-        }else{
-            response = await axios.get(`${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/organisation-users/user/${id}`,{
-                headers:{
-                    Authorization: `Bearer ${this.token}`
-                }
-            });
-        }
-            
-            return response.data
+    async getUser(userId:any){
+        let response =  await axios.get(`http://localhost:4000/user/profile`);
+        return response.data
+         
     }
     async getAll(page:number,size:number){
             let response = await axios.get(`${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/organisation-users/paginated?page=${page}&size=${size}`,{

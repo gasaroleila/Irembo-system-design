@@ -5,12 +5,10 @@ import { UserAuth } from "../../../types/types";
 import { Toast } from "../toasts/Toast";
 import { UserService } from "../../../pages/Api/services/UserService";
 import { useState, useContext } from "react";
-import { UserContext } from "./ContextProvider";
 import { Lock, Mail } from "react-feather";
 import { Link, useNavigate, Navigate } from "react-router-dom";
 
 export function UserLogin(): JSX.Element {
-  const { authError }: any = useContext(UserContext);
   const {
     register,
     handleSubmit,
@@ -29,20 +27,11 @@ export function UserLogin(): JSX.Element {
     const userService = new UserService();
     try {
       const response = await userService.sendLoginLink(data);
-      console.log(response)
+      console.log(response.success)
       if (response.success === false) {
         handleToast({ status: "error", message: response.message });
       } else {
-        handleToast({ status: "success", message: response.message });
-        // localStorage.setItem(
-        //   "access_token",
-        //   JSON.stringify(response.token)
-        // );
-        // localStorage.setItem(
-        //   "current_user",
-        //   JSON.stringify(response.user)
-        // );
-        // navigate("/loginWithLink");
+        handleToast({ status: "success", message: response.message || "Sent Login link to your email" });
       }
       handleLoading(false);
       setTimeout(() => {
@@ -50,25 +39,19 @@ export function UserLogin(): JSX.Element {
       }, 3000);
     } catch (error:any) {
       handleLoading(false);
-      console.log(error)
-      handleToast({ status: "error", message: error.message});
+      handleToast({ status: "error", message: error.response.data || "An Error occured, Try again!" });
+      setTimeout(() => {
+        handleToast({ status: "", message: "" });
+      }, 3000);
     } 
   };
   return (
     <div className="my-10 w-full text-sm">
       
       {/* toast */}
-      {status === "error" && <Toast status={status} message={message} />}
+      {(status === "error" || status === "success") && <Toast status={status} message={message} />}
       {/* toast ends here */}
-      {/* toast for authentication error */}
 
-      {/* {authError !== '' &&
-        <Toast
-          status= 'error'
-          message={authError}
-        />
-      }
-       */}
       <form onSubmit={handleSubmit(login)}>
         <div className="form-group mt-7 w-full">
           <label htmlFor="email" className="mb-2 text-sm capitalize block">
@@ -118,7 +101,7 @@ export function UserLogin(): JSX.Element {
           </a>
         </Link>
 
-        <Button title="Sign in"   />
+        <Button title="Sign in" loading={loading} loadingTitle="Signing In..."  />
       </form>
     </div>
   );

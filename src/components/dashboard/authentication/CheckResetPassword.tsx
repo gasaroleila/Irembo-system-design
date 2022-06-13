@@ -5,14 +5,12 @@ import { UserAuth, userLogin } from "../../../types/types";
 import { Toast } from "../toasts/Toast";
 import { UserService } from "../../../pages/Api/services/UserService";
 import { useState, useContext, useEffect } from "react";
-import { UserContext } from "./ContextProvider";
 import { Lock, Mail } from "react-feather";
 import { Link, useNavigate, Navigate } from "react-router-dom";
 import { checkLocalStorage } from "../../../util/checkLocalStorage";
 import { useParams } from "react-router";
 
 export function ResetPasswordRedirect(): JSX.Element {
-  const { authError }: any = useContext(UserContext);
   const {
     register,
     handleSubmit,
@@ -23,18 +21,37 @@ export function ResetPasswordRedirect(): JSX.Element {
     message: "",
   });
   const [loading, handleLoading] = useState<Boolean>(false);
+  const [userCanReset, setUserCanReset] = useState<any>()
+
 
     const navigate = useNavigate();
   let { code, userId } = useParams()
-  const currentUser = checkLocalStorage("current_user")
+  const userService = new UserService();
+
+
+  const checkCanReset = async () => {
+    try {
+      const canReset = await userService.checkCanReset(userId)
+      if (canReset.status === 200) {
+        setUserCanReset(true)
+      }
+
+    } catch (err:any) {
+      setUserCanReset(false)
+    }
+  }
+
+  useEffect(() => {
+    checkCanReset()
+  })
     
     const handleRedirect = async () => {
         //   const currentUser = checkLocalStorage("current_user");
-        const userService = new UserService();
         const response = await userService.checkResetLink(code, userId);
         console.log('res',response.status)
         if (response.status == 200) {
-            navigate(`/resetPassword/${userId}`)
+          navigate(`/resetPassword/${userId}`)
+          
         } else {
           navigate(`/resetpassword`)
         }
@@ -47,13 +64,13 @@ export function ResetPasswordRedirect(): JSX.Element {
 
     })
 
-  if (!currentUser.requestPasswordReset) {
-    return <Navigate to="/resetPassword" />
-  } else {
+    // if (!userCanReset) {
+    //   return <Navigate to="/resetPassword" />
+    // } else {
     return (
       <div className="my-10 w-full text-sm">
         <p className="px-12">redirecting ...</p>
       </div>
     );
-  }
+  // }
 }

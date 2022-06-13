@@ -5,12 +5,10 @@ import { UserAuth, UserVerifyAccount } from "../../../types/types";
 import { Toast } from "../toasts/Toast";
 import { UserService } from "../../../pages/Api/services/UserService";
 import { useState, useContext } from "react";
-import { UserContext } from "./ContextProvider";
 import { Lock, Mail } from "react-feather";
 import { Link, useNavigate, Navigate } from "react-router-dom";
 
 export function UserVerifyEmail(): JSX.Element {
-  const { authError }: any = useContext(UserContext);
   const {
     register,
     handleSubmit,
@@ -33,7 +31,6 @@ export function UserVerifyEmail(): JSX.Element {
         handleToast({ status: "error", message: response.message });
       } else {
         handleToast({ status: "success", message: response.message });
-        
         navigate("/login");
       }
       handleLoading(false);
@@ -48,11 +45,9 @@ export function UserVerifyEmail(): JSX.Element {
   };
   return (
     <div className="my-10 w-full text-sm">
-      
       {/* toast */}
       {status === "error" && <Toast status={status} message={message} />}
       {/* toast ends here */}
-      {/* toast for authentication error */}
 
       <form onSubmit={handleSubmit(verifyAccount)}>
        

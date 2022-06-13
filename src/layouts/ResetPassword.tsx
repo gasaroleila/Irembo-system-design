@@ -1,24 +1,17 @@
 import { useContext, useEffect, useState } from "react"
 import { ArrowDownLeft, ArrowLeft } from "react-feather"
 import { Navigate, useNavigate } from "react-router"
-import { UserContext } from "../components/dashboard/authentication/ContextProvider"
 import { checkLocalStorage } from "../util/checkLocalStorage"
 
 
 export default function ResetPasswordLayout(props: any): JSX.Element {
-    const {mode}:any = useContext(UserContext)
-    // setting the theme
-  const [dark,setDark] = useState(false)
-  useEffect(() => {
-   let darkmode:any = checkLocalStorage("darkmode")
-   setDark(darkmode)
-  }, [mode])
+ 
     
     const navigate = useNavigate()
  
     return (
         <div
-        className = {`${dark?'darkMode':''} md:flex w-100 h-screen`}
+        className =  "md:flex w-100 h-screen"
         >
             <div className="md:w-1/2 h-full bg-primary hidden md:block">
                 <div className="h-full flex items-center justify-center gap-5">
