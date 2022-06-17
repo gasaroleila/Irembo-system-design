@@ -26,7 +26,6 @@ function App() {
       <Route path="/resetPassword/:userId/:code" element={<ResetPasswordRedirect />} />
       <Route path="/verifyEmail" element={<VerifyEmail />} />
       <Route path="/" element={<Dashboard/>}/>
-      
     </Routes>
   ) 
 }
