@@ -5,11 +5,14 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "test": "react-scripts test"
   },
   "dependencies": {
     "@ant-design/icons": "^4.7.0",
+    "@types/jest": "^28.1.2",
     "axios": "^0.27.2",
+    "jest": "^28.1.1",
     "jsonwebtoken": "^8.5.1",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
@@ -21,6 +24,10 @@
     "react-toastify": "^9.0.4"
   },
   "devDependencies": {
+    "@testing-library/jest-dom": "^5.16.4",
+    "@testing-library/react": "^13.3.0",
+    "@testing-library/react-hooks": "^8.0.1",
+    "@testing-library/user-event": "^14.2.1",
     "@types/jsonwebtoken": "^8.5.8",
     "@types/node": "^17.0.41",
     "@types/react": "^18.0.12",
@@ -28,11 +35,13 @@
     "@types/react-router-dom": "^5.3.3",
     "@vitejs/plugin-react": "^1.3.0",
     "autoprefixer": "^10.4.7",
+    "jsdom": "^20.0.0",
     "postcss": "^8.4.14",
     "process": "0.11.10",
     "tailwindcss": "^♠",
     "typescript": "^4.6.3",
-    "vite": "^2.9.9"
+    "vite": "^2.9.9",
+    "react-scripts": "5.0.0"
   },
   "resolutions": {
     "//": "See https://github.com/facebook/create-react-app/issues/11773",
