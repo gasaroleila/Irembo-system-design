@@ -14,7 +14,7 @@ export function UserRegister(): JSX.Element {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<UserRegisterData>();
+  } = useForm<UserRegisterData>({ mode: "onBlur"});
   const [{ status, message }, handleToast] = useState({
     status: "",
     message: "",
@@ -82,7 +82,7 @@ export function UserRegister(): JSX.Element {
           />
            </div>
 
-          <span className="text-red-600 text-xs block mt-2">
+          <span  data-testid="names" className="text-red-600 text-xs block mt-2">
             {errors.names && errors.names.message}
           </span>
         </div>
@@ -105,7 +105,7 @@ export function UserRegister(): JSX.Element {
           />
            </div>
 
-          <span className="text-red-600 text-xs block mt-2">
+          <span data-testid="email" className="text-red-600 text-xs block mt-2">
             {errors.email && errors.email.message}
           </span>
         </div>
@@ -127,7 +127,7 @@ export function UserRegister(): JSX.Element {
                 <option value={ Gender.MALE}>Male</option>
                           
             </select>
-            <span className="text-red-600 text-xs block mt-2 w-48">
+            <span data-testid="gender" className="text-red-600 text-xs block mt-2 w-48">
               {errors.gender?.message}
             </span>
             {/* </div> */}
@@ -148,7 +148,7 @@ export function UserRegister(): JSX.Element {
             })}
           />
             </div>
-          <span className="text-red-600 block text-xs mt-2">
+          <span data-testid="age" className="text-red-600 block text-xs mt-2">
             {errors.age && errors.age.message}
           </span>
               </div>
@@ -183,15 +183,19 @@ export function UserRegister(): JSX.Element {
               className="rounded-sm bg-gray-50 text-gray-600 ring-1 ring-gray-200 outline-none w-full py-[0.75em] px-3"
               {...register("maritialStatus", {
                 required: "Please select a Maritial Status",
+                minLength: {
+                  value: 5,
+                  message: "Please select a Maritial Status"
+                }
               })}
             >
                           <option  value={MaritialStatus.SINGLE}>{MaritialStatus.SINGLE}</option>
-                          <option selected value={MaritialStatus.DIVORCED}>{MaritialStatus.DIVORCED}</option>
+                          <option value={MaritialStatus.DIVORCED}>{MaritialStatus.DIVORCED}</option>
                           <option value={MaritialStatus.MARRIED}>{MaritialStatus.MARRIED}</option>
                           <option value={MaritialStatus.WIDOWED}>{MaritialStatus.WIDOWED}</option>
             </select> 
-            <span className="text-red-600 text-xs block mt-2 w-48">
-              {errors.gender?.message}
+            <span data-testid="status" className="text-red-600 text-xs block mt-2 w-48">
+              {errors.maritialStatus && errors.maritialStatus?.message}
             </span>
               </div>
 
@@ -211,7 +215,7 @@ export function UserRegister(): JSX.Element {
                 <option value="Kenyan">Kenyan</option>
                           
             </select>
-            <span className="text-red-600 text-xs block mt-2 w-48">
+            <span data-testid="nationality"className="text-red-600 text-xs block mt-2 w-48">
               {errors.nationality?.message}
             </span>
         </div>
@@ -231,7 +235,7 @@ export function UserRegister(): JSX.Element {
             />
             
             </div>
-          <span className="text-red-600 block text-xs mt-2">
+          <span data-testid="profile"className="text-red-600 block text-xs mt-2">
             {errors.profilePicture && errors.profilePicture.message}
           </span>
         </div>
@@ -280,12 +284,12 @@ export function UserRegister(): JSX.Element {
             })}
           />
             </div>
-          <span className="text-red-600 block text-xs mt-2">
+          <span data-testid="password" className="text-red-600 block text-xs mt-2">
             {errors.password && errors.password.message}
           </span>
         </div>
 
-        <Button title="Sign Up" loading={loading} loadingTitle="Signing Up ..."/>
+        <Button  title="Sign Up" loading={loading} loadingTitle="Signing Up ..."/>
       </form>
     </div>
   );
